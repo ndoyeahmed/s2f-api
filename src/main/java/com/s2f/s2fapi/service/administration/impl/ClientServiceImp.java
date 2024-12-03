@@ -2,10 +2,14 @@ package com.s2f.s2fapi.service.administration.impl;
 
 import com.s2f.s2fapi.constants.ErrorsMessages;
 import com.s2f.s2fapi.dto.request.ClientDtoRequest;
+import com.s2f.s2fapi.dto.request.MesureDtoRequest;
 import com.s2f.s2fapi.dto.response.ClientDtoResponse;
+import com.s2f.s2fapi.dto.response.MesureDtoResponse;
+import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
 import com.s2f.s2fapi.exceptions.BadRequestException;
 import com.s2f.s2fapi.exceptions.InternalServerErrorException;
 import com.s2f.s2fapi.mapper.ClientMapper;
+import com.s2f.s2fapi.mapper.MesureMapper;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
 import com.s2f.s2fapi.service.administration.interfaces.ClientService;
@@ -14,6 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +31,7 @@ public class ClientServiceImp implements ClientService {
     private final ClientRepository clientRepository;
     private final MesureRepository mesureRepository;
     private final ClientMapper clientMapper;
+    private final MesureMapper mesureMapper;
 
     /**
      * Add new client wth measures
@@ -58,9 +64,19 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
+    public MesureDtoResponse addMesureClient(MesureDtoRequest mesureDtoRequest) {
+        return null;
+    }
+
+    @Override
     public List<ClientDtoResponse> getAllClientNotArchive() {
         return clientRepository.findAllByArchiveFalse().stream()
                 .map(clientMapper::toClientDTOResponse)
                 .toList();
+    }
+
+    @Override
+    public ResponseDTOPaging<ClientDtoResponse> filterClients(String nom, String telephone, Pageable pageable) {
+        return null;
     }
 }
