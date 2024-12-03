@@ -10,18 +10,24 @@ import com.s2f.s2fapi.exceptions.BadRequestException;
 import com.s2f.s2fapi.exceptions.InternalServerErrorException;
 import com.s2f.s2fapi.mapper.ClientMapper;
 import com.s2f.s2fapi.mapper.MesureMapper;
+import com.s2f.s2fapi.model.Client;
+import com.s2f.s2fapi.model.Produit;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
 import com.s2f.s2fapi.service.administration.interfaces.ClientService;
+import com.s2f.s2fapi.specifications.ClientSpecification;
+import com.s2f.s2fapi.specifications.ProduitSpecifications;
 import com.s2f.s2fapi.utils.LoggingUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -77,6 +83,21 @@ public class ClientServiceImp implements ClientService {
 
     @Override
     public ResponseDTOPaging<ClientDtoResponse> filterClients(String nom, String telephone, Pageable pageable) {
-        return null;
+        LoggingUtil.logInfo(
+                this.getClass(),
+                "filterClients",
+                "entrer un nom ou prenom valable");
+        Specification<Client> clientSpecification =
+                Specification.where(ClientSpecification.isArchiveFalse())
+                        .and(ClientSpecification.hasNom(nom))
+                        .and(ClientSpecification.hasTelephone(telephone));
+        var clientsPage = clientRepository.findAll(clientSpecification, pageable);
+        return new ResponseDTOPaging<>(
+                clientsPage.getContent().stream()
+                        .map(clientMapper::toClientDTOResponse)
+                        .collect(Collectors.toList()),
+                clientsPage.getNumber(),
+                clientsPage.getTotalElements(),
+                clientsPage.getTotalPages());
     }
 }

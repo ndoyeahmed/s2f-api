@@ -12,10 +12,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
-    @Mapping(target = "mesures", source = "mesures")
+
     ClientDtoResponse toClientDTOResponse(Client client);
 
-    @Mapping(target = "mesures", source = "mesures")
+
     Client toClientEntity(ClientDtoRequest clientDtoRequest);
 
     List<Mesure> toMesureEntityList(List<MesureDtoRequest> mesureDtoRequests);
