@@ -1,5 +1,6 @@
 package com.s2f.s2fapi.config;
 
+import com.s2f.s2fapi.constants.ApiConstants; // Importez la classe de constantes
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -10,27 +11,25 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
-    String schemeName = "bearerAuth";
-    String bearerFormat = "JWT";
-    String scheme = "bearer";
+
     @Bean
-    public OpenAPI caseOpenAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement()
-                        .addList(schemeName)).components(new Components()
-                        .addSecuritySchemes(
-                                schemeName, new SecurityScheme()
-                                        .name(schemeName)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .bearerFormat(bearerFormat)
-                                        .in(SecurityScheme.In.HEADER)
-                                        .scheme(scheme)
-                        )
-                )
-                .info(new Info()
-                        .title("Case Management Service")
-                        .description("Claim Event Information")
-                        .version("1.0")
-                );
+                .addSecurityItem(new SecurityRequirement().addList(ApiConstants.BEARER_AUTH_NAME))
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        ApiConstants.BEARER_AUTH_NAME,
+                                        new SecurityScheme()
+                                                .name(ApiConstants.BEARER_AUTH_NAME)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .bearerFormat(ApiConstants.BEARER_FORMAT)
+                                                .in(SecurityScheme.In.HEADER)
+                                                .scheme(ApiConstants.SECURITY_SCHEME_TYPE)))
+                .info(
+                        new Info()
+                                .title(ApiConstants.API_TITLE)
+                                .description(ApiConstants.API_DESCRIPTION)
+                                .version(ApiConstants.API_VERSION));
     }
 }

@@ -1,0 +1,23 @@
+package com.s2f.s2fapi.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@Entity
+public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nom;
+    private String prenom;
+    private String telephone;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean archive;
+}

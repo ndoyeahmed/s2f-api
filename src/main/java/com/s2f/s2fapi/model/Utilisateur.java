@@ -1,14 +1,13 @@
 package com.s2f.s2fapi.model;
 
 import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +21,7 @@ public class Utilisateur implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String prenom;
     private String login;
@@ -29,7 +29,10 @@ public class Utilisateur implements UserDetails {
     private String email;
     private String adresse;
     private String telephone;
+
+    @Column(columnDefinition = "boolean default false")
     private boolean archive;
+
     private boolean active;
     private boolean passwordChanged;
 

@@ -6,6 +6,7 @@ import com.s2f.s2fapi.dto.response.AuthenticationResponse;
 import com.s2f.s2fapi.dto.response.UserConnectDto;
 import com.s2f.s2fapi.service.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+
     @PostMapping("/v1/auth/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authenticationService.register(registerRequest));
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest registerRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authenticationService.register(registerRequest));
     }
 
     @PostMapping("/v1/auth/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 
@@ -30,7 +35,8 @@ public class AuthenticationController {
     }
 
     @PutMapping("/v1/reset-password")
-    public ResponseEntity<UserConnectDto> resetPassword(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<UserConnectDto> resetPassword(
+            @RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authenticationService.resetPassword(authenticationRequest));
     }
 }
