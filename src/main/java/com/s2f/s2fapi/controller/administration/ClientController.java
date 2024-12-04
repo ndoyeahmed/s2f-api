@@ -2,6 +2,7 @@ package com.s2f.s2fapi.controller.administration;
 
 import com.s2f.s2fapi.dto.request.ClientDtoRequest;
 import com.s2f.s2fapi.dto.response.ClientDtoResponse;
+import com.s2f.s2fapi.dto.response.MesureDtoResponse;
 import com.s2f.s2fapi.dto.response.ProduitDTO;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
 import com.s2f.s2fapi.service.administration.interfaces.ClientService;
@@ -38,5 +39,10 @@ public class ClientController {
             @RequestParam(required = false) String telephone,
             Pageable pageable) {
         return ResponseEntity.ok(clientService.filterClients(nom, telephone, pageable));
+    }
+
+    @DeleteMapping("/v1/mesure/{id}")
+    public ResponseEntity<MesureDtoResponse> archiveMesure(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.archiveProduct(id));
     }
 }

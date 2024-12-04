@@ -7,10 +7,12 @@ import com.s2f.s2fapi.dto.response.ClientDtoResponse;
 import com.s2f.s2fapi.dto.response.MesureDtoResponse;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
 import com.s2f.s2fapi.exceptions.BadRequestException;
+import com.s2f.s2fapi.exceptions.EntityNotFoundException;
 import com.s2f.s2fapi.exceptions.InternalServerErrorException;
 import com.s2f.s2fapi.mapper.ClientMapper;
 import com.s2f.s2fapi.mapper.MesureMapper;
 import com.s2f.s2fapi.model.Client;
+import com.s2f.s2fapi.model.Mesure;
 import com.s2f.s2fapi.model.Produit;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
@@ -99,5 +101,19 @@ public class ClientServiceImp implements ClientService {
                 clientsPage.getNumber(),
                 clientsPage.getTotalElements(),
                 clientsPage.getTotalPages());
+    }
+
+    @Override
+    public Mesure getMesureById(Long id) {
+        return mesureRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorsMessages.PRODUCT_NOT_FOUND));
+    }
+
+    @Override
+    public MesureDtoResponse archiveProduct(Long id) {
+        var mesure = getMesureById(id);
+        mesure.setArchive(true);
+        return mesureMapper.toDTO(mesureRepository.save(mesure));
     }
 }
