@@ -17,6 +17,9 @@ public class Mesure {
     private String libelle;
     private double valeur;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean archive;
+
     @ManyToOne
     @JoinColumn(name = "client", referencedColumnName = "id")
     private Client client;

@@ -11,4 +11,5 @@ public class MesureDtoResponse {
     private Long id;
     private String libelle;
     private double valeur;
+    private ClientDtoResponse clientDtoResponse;
 }
