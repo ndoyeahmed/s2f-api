@@ -4,9 +4,7 @@ import com.s2f.s2fapi.dto.request.ClientDtoRequest;
 import com.s2f.s2fapi.dto.response.ClientDtoResponse;
 import com.s2f.s2fapi.service.interfaces.ClientService;
 import com.s2f.s2fapi.dto.response.MesureDtoResponse;
-import com.s2f.s2fapi.dto.response.ProduitDTO;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
-import com.s2f.s2fapi.service.interfaces.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +42,6 @@ public class ClientController {
 
     @DeleteMapping("/v1/mesure/{id}")
     public ResponseEntity<MesureDtoResponse> archiveMesure(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.archiveProduct(id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.archiveMesure(id));
     }
 }

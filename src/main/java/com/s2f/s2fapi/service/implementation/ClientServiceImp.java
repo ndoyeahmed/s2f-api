@@ -13,13 +13,10 @@ import com.s2f.s2fapi.mapper.ClientMapper;
 import com.s2f.s2fapi.mapper.MesureMapper;
 import com.s2f.s2fapi.model.Client;
 import com.s2f.s2fapi.model.Mesure;
-import com.s2f.s2fapi.model.Produit;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
 import com.s2f.s2fapi.service.interfaces.ClientService;
-import com.s2f.s2fapi.service.interfaces.ClientService;
 import com.s2f.s2fapi.specifications.ClientSpecification;
-import com.s2f.s2fapi.specifications.ProduitSpecifications;
 import com.s2f.s2fapi.utils.LoggingUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -112,7 +109,7 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
-    public MesureDtoResponse archiveProduct(Long id) {
+    public MesureDtoResponse archiveMesure(Long id) {
         var mesure = getMesureById(id);
         mesure.setArchive(true);
         return mesureMapper.toDTO(mesureRepository.save(mesure));
