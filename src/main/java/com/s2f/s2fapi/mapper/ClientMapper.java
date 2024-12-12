@@ -8,10 +8,13 @@ import com.s2f.s2fapi.model.Client;
 import com.s2f.s2fapi.model.Mesure;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
+
     ClientDtoResponse toClientDTOResponse(Client client);
+
 
     Client toClientEntity(ClientDtoRequest clientDtoRequest);
 
