@@ -18,6 +18,6 @@ public class S2fApiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-       // utilisateurFixture.addDefaultAdmin();
+       utilisateurFixture.addDefaultAdmin();
     }
 }
