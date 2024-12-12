@@ -18,6 +18,8 @@ import com.s2f.s2fapi.repository.CategorieRepository;
 import com.s2f.s2fapi.repository.ProduitRepository;
 import java.util.List;
 import java.util.Optional;
+
+import com.s2f.s2fapi.service.implementation.ProduitServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -6,5 +6,6 @@ import lombok.Getter;
 public enum EtatCommande {
     ENCOURS,
     TERMINER,
+    LIVRER,
     ANNULER;
 }

@@ -1,4 +1,4 @@
-package com.s2f.s2fapi.service.administration.interfaces;
+package com.s2f.s2fapi.service.interfaces;
 
 import com.s2f.s2fapi.dto.response.CategorieDto;
 import com.s2f.s2fapi.dto.response.ProduitDTO;
