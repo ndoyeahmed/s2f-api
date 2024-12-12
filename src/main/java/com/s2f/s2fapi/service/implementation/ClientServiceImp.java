@@ -1,22 +1,33 @@
-package com.s2f.s2fapi.service.administration.impl;
+package com.s2f.s2fapi.service.implementation;
 
 import com.s2f.s2fapi.constants.ErrorsMessages;
 import com.s2f.s2fapi.dto.request.ClientDtoRequest;
+import com.s2f.s2fapi.dto.request.MesureDtoRequest;
 import com.s2f.s2fapi.dto.response.ClientDtoResponse;
+import com.s2f.s2fapi.dto.response.MesureDtoResponse;
+import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
 import com.s2f.s2fapi.exceptions.BadRequestException;
+import com.s2f.s2fapi.exceptions.EntityNotFoundException;
 import com.s2f.s2fapi.exceptions.InternalServerErrorException;
 import com.s2f.s2fapi.mapper.ClientMapper;
+import com.s2f.s2fapi.mapper.MesureMapper;
+import com.s2f.s2fapi.model.Client;
+import com.s2f.s2fapi.model.Mesure;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
-import com.s2f.s2fapi.service.administration.interfaces.ClientService;
+import com.s2f.s2fapi.service.interfaces.ClientService;
+import com.s2f.s2fapi.specifications.ClientSpecification;
 import com.s2f.s2fapi.utils.LoggingUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,6 +37,7 @@ public class ClientServiceImp implements ClientService {
     private final ClientRepository clientRepository;
     private final MesureRepository mesureRepository;
     private final ClientMapper clientMapper;
+    private final MesureMapper mesureMapper;
 
     /**
      * Add new client wth measures
@@ -58,9 +70,48 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
+    public MesureDtoResponse addMesureClient(MesureDtoRequest mesureDtoRequest) {
+        return null;
+    }
+
+    @Override
     public List<ClientDtoResponse> getAllClientNotArchive() {
         return clientRepository.findAllByArchiveFalse().stream()
                 .map(clientMapper::toClientDTOResponse)
                 .toList();
+    }
+
+    @Override
+    public ResponseDTOPaging<ClientDtoResponse> filterClients(String nom, String telephone, Pageable pageable) {
+        LoggingUtil.logInfo(
+                this.getClass(),
+                "filterClients",
+                "entrer un nom ou prenom valable");
+        Specification<Client> clientSpecification =
+                Specification.where(ClientSpecification.isArchiveFalse())
+                        .and(ClientSpecification.hasNom(nom))
+                        .and(ClientSpecification.hasTelephone(telephone));
+        var clientsPage = clientRepository.findAll(clientSpecification, pageable);
+        return new ResponseDTOPaging<>(
+                clientsPage.getContent().stream()
+                        .map(clientMapper::toClientDTOResponse)
+                        .collect(Collectors.toList()),
+                clientsPage.getNumber(),
+                clientsPage.getTotalElements(),
+                clientsPage.getTotalPages());
+    }
+
+    @Override
+    public Mesure getMesureById(Long id) {
+        return mesureRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorsMessages.PRODUCT_NOT_FOUND));
+    }
+
+    @Override
+    public MesureDtoResponse archiveMesure(Long id) {
+        var mesure = getMesureById(id);
+        mesure.setArchive(true);
+        return mesureMapper.toDTO(mesureRepository.save(mesure));
     }
 }

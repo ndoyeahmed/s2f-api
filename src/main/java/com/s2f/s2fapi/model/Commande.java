@@ -2,6 +2,8 @@ package com.s2f.s2fapi.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 import lombok.*;
 
 @NoArgsConstructor
@@ -26,4 +28,7 @@ public class Commande {
     @ManyToOne
     @JoinColumn(name = "client", referencedColumnName = "id")
     private Client client;
+
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommandeProduit> commandeProduits;
 }
