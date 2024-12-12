@@ -1,4 +1,4 @@
-package com.s2f.s2fapi.service.administration.impl;
+package com.s2f.s2fapi.service.implementation;
 
 import com.s2f.s2fapi.constants.ErrorsMessages;
 import com.s2f.s2fapi.dto.request.ClientDtoRequest;
@@ -8,7 +8,7 @@ import com.s2f.s2fapi.exceptions.InternalServerErrorException;
 import com.s2f.s2fapi.mapper.ClientMapper;
 import com.s2f.s2fapi.repository.ClientRepository;
 import com.s2f.s2fapi.repository.MesureRepository;
-import com.s2f.s2fapi.service.administration.interfaces.ClientService;
+import com.s2f.s2fapi.service.interfaces.ClientService;
 import com.s2f.s2fapi.utils.LoggingUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.s2f.s2fapi.service.administration.impl;
+package com.s2f.s2fapi.service.implementation;
 
 import com.s2f.s2fapi.constants.ErrorsMessages;
 import com.s2f.s2fapi.dto.response.CategorieDto;
@@ -12,7 +12,7 @@ import com.s2f.s2fapi.mapper.ProduitMapper;
 import com.s2f.s2fapi.model.Produit;
 import com.s2f.s2fapi.repository.CategorieRepository;
 import com.s2f.s2fapi.repository.ProduitRepository;
-import com.s2f.s2fapi.service.administration.interfaces.ProduitService;
+import com.s2f.s2fapi.service.interfaces.ProduitService;
 import com.s2f.s2fapi.specifications.ProduitSpecifications;
 import com.s2f.s2fapi.utils.LoggingUtil;
 import jakarta.transaction.Transactional;

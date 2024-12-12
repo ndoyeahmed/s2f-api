@@ -1,8 +1,8 @@
-package com.s2f.s2fapi.controller.administration;
+package com.s2f.s2fapi.controller;
 
 import com.s2f.s2fapi.dto.request.ClientDtoRequest;
 import com.s2f.s2fapi.dto.response.ClientDtoResponse;
-import com.s2f.s2fapi.service.administration.interfaces.ClientService;
+import com.s2f.s2fapi.service.interfaces.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

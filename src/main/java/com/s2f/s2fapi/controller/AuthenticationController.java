@@ -1,4 +1,4 @@
-package com.s2f.s2fapi.controller.auth;
+package com.s2f.s2fapi.controller;
 
 import com.s2f.s2fapi.dto.request.AuthenticationRequest;
 import com.s2f.s2fapi.dto.request.RegisterRequest;

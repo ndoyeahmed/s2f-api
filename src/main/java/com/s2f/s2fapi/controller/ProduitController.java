@@ -1,9 +1,9 @@
-package com.s2f.s2fapi.controller.administration;
+package com.s2f.s2fapi.controller;
 
 import com.s2f.s2fapi.dto.response.CategorieDto;
 import com.s2f.s2fapi.dto.response.ProduitDTO;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
-import com.s2f.s2fapi.service.administration.interfaces.ProduitService;
+import com.s2f.s2fapi.service.interfaces.ProduitService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
