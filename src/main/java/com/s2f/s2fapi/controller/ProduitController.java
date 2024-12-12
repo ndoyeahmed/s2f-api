@@ -51,6 +51,6 @@ public class ProduitController {
 
     @DeleteMapping("/v1/product/{id}")
     public ResponseEntity<ProduitDTO> archiveProduct(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(produitService.archiveProduct(id));
+        return ResponseEntity.status(HttpStatus.OK).body(produitService.archiveProduct(id));
     }
 }

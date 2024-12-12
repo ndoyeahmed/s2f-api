@@ -2,17 +2,23 @@ package com.s2f.s2fapi.service.implementation;
 
 import com.s2f.s2fapi.dto.request.CommandeDtoRequest;
 import com.s2f.s2fapi.dto.response.CommandeDtoResponse;
+import com.s2f.s2fapi.dto.response.CommandeProduitDtoResponse;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
+import com.s2f.s2fapi.exceptions.EntityNotFoundException;
+import com.s2f.s2fapi.mapper.CommandeProduitMapper;
 import com.s2f.s2fapi.mapper.CommandeResponseMapper;
 import com.s2f.s2fapi.model.Commande;
+import com.s2f.s2fapi.model.EtatCommande;
 import com.s2f.s2fapi.model.Paiement;
 import com.s2f.s2fapi.model.Reglement;
+import com.s2f.s2fapi.repository.CommandeProduitRepository;
 import com.s2f.s2fapi.repository.CommandeRepository;
 import com.s2f.s2fapi.repository.PaiementRepository;
 import com.s2f.s2fapi.repository.ReglementRepository;
 import com.s2f.s2fapi.service.interfaces.CommandeService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.s2f.s2fapi.specifications.CommandeSpecification;
@@ -32,6 +38,8 @@ public class CommandeServiceImp implements CommandeService {
     private final CommandeRepository commandeRepository;
     private final PaiementRepository paiementRepository;
     private final ReglementRepository reglementRepository;
+    private final CommandeProduitRepository commandeProduitRepository;
+    private final CommandeProduitMapper commandeProduitMapper;
     private final CommandeValidator commandeValidator;
     private final CommandeCreator commandeCreator;
     private final CommandeResponseMapper responseMapper;
@@ -128,5 +136,32 @@ public class CommandeServiceImp implements CommandeService {
                 commandePage.getNumber(),
                 commandePage.getTotalElements(),
                 commandePage.getTotalPages());
+    }
+
+    @Override
+    public CommandeDtoResponse updateEtatCommande(CommandeDtoResponse commandeDtoResponse) {
+        var commande = commandeRepository.findById(commandeDtoResponse.getId()).orElseThrow(
+                () -> new EntityNotFoundException("order not found with ID: " + commandeDtoResponse.getId())
+        );
+        commande.setEtatCommande(EtatCommande.valueOf(commandeDtoResponse.getEtatCommande().name()));
+        commandeRepository.save(commande);
+        return responseMapper.toCommandeDtoResponse(commande);
+    }
+
+    @Override
+    public List<CommandeProduitDtoResponse> getCommandeProduitByCommandeId(Long commandeId) {
+        return commandeProduitRepository.findAllByArchiveFalseAndAndCommandeId(commandeId)
+                .stream()
+                .map(commandeProduitMapper::toDTOList)
+                .toList();
+    }
+
+    @Override
+    public CommandeDtoResponse archiveCommande(Long id) {
+        var commande = commandeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("order not found with ID: " + id)
+        );
+        commande.setArchive(true);
+        return responseMapper.toCommandeDtoResponse(commande);
     }
 }

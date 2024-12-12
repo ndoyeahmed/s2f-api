@@ -2,9 +2,12 @@ package com.s2f.s2fapi.controller;
 
 import com.s2f.s2fapi.dto.request.CommandeDtoRequest;
 import com.s2f.s2fapi.dto.response.CommandeDtoResponse;
+import com.s2f.s2fapi.dto.response.CommandeProduitDtoResponse;
+import com.s2f.s2fapi.dto.response.ProduitDTO;
 import com.s2f.s2fapi.dto.response.ResponseDTOPaging;
 import com.s2f.s2fapi.service.interfaces.CommandeService;
 import java.util.Collections;
+import java.util.List;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,11 @@ public class CommandeController {
         return ResponseEntity.ok(commandeService.getAllCommandeByEtatCommande(etatCommande, pageable));
     }
 
+    @GetMapping("/v1/details-commande/{commandeId}")
+    public ResponseEntity<List<CommandeProduitDtoResponse>> getAllCommandeProduitByCommande(@PathVariable Long commandeId) {
+        return ResponseEntity.ok(commandeService.getCommandeProduitByCommandeId(commandeId));
+    }
+
     /**
      * Endpoint pour créer une nouvelle commande.
      *
@@ -43,5 +51,17 @@ public class CommandeController {
             @Valid @RequestBody CommandeDtoRequest commandeDtoRequest) {
         var response = commandeService.addNewCommande(commandeDtoRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/v1/commandes/etat")
+    public ResponseEntity<CommandeDtoResponse> updateNewCommande(
+            @Valid @RequestBody CommandeDtoResponse commandeDtoResponse) {
+        var response = commandeService.updateEtatCommande(commandeDtoResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/v1/commandes/{id}")
+    public ResponseEntity<CommandeDtoResponse> archiveCommande(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(commandeService.archiveCommande(id));
     }
 }
