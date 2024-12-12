@@ -1,7 +1,6 @@
 package com.s2f.s2fapi.specifications;
 
 import com.s2f.s2fapi.model.Client;
-import com.s2f.s2fapi.model.Produit;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ClientSpecification {
